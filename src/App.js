@@ -10,6 +10,7 @@ import Profile from './pages/Profile';
 import Offer from './pages/Offer';
 import Explore from './pages/Explore';
 import PrivateRoute from './components/PrivateRoute';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/offer" element={<Offer />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/forgot" element={<ForgotPassword />} />
               <Route path="/profile" element={<PrivateRoute />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>

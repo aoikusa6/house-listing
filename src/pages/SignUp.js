@@ -10,14 +10,11 @@ import {
   useBoolean,
   Divider,
   useToast,
-  ButtonGroup,
 } from '@chakra-ui/react';
 import {
   FaEye,
   FaEyeSlash,
   FaChevronCircleRight,
-  FaGoogle,
-  FaFacebook,
   FaEnvelope,
   FaAt,
 } from 'react-icons/fa';
@@ -26,10 +23,12 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
+  sendEmailVerification,
 } from 'firebase/auth';
 import { db } from '../firebase.config';
 import { useNavigate } from 'react-router-dom';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import SocialLogin from './SocialLogin';
 
 const SignUp = () => {
   const [isHidden, setIsHidden] = useBoolean(true);
@@ -60,6 +59,7 @@ const SignUp = () => {
         password
       );
       const user = userCredential.user;
+      sendEmailVerification(auth.currentUser);
       updateProfile(auth.currentUser, {
         displayName: name,
       });
@@ -86,7 +86,7 @@ const SignUp = () => {
       });
     }
   };
-  
+
   const inputsInfo = [
     { type: 'text', name: 'name', icon1: <FaEnvelope /> },
     { type: 'text', name: 'email', icon1: <FaAt /> },
@@ -174,14 +174,7 @@ const SignUp = () => {
           <FormLabel as="legend" fontSize="xl">
             OR Register with:
           </FormLabel>
-          <ButtonGroup mt={4} size="lg" fontSize="xl">
-            <Button leftIcon={<FaGoogle />} colorScheme="red">
-              <Text display={['none', null, 'inline']}>Google</Text>
-            </Button>
-            <Button leftIcon={<FaFacebook />} colorScheme="facebook">
-              <Text display={['none', null, 'inline']}>facebook</Text>
-            </Button>
-          </ButtonGroup>
+          <SocialLogin />
         </FormControl>
       </form>
     </>
