@@ -1,4 +1,5 @@
-import { Icon, Tab, TabList, Tabs, Text } from '@chakra-ui/react';
+import { Box, Icon, Tab, TabList, Tabs, Text } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import React from 'react';
 import { FaCompass, FaCoins, FaUserTie, FaHome } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
@@ -12,16 +13,18 @@ const Navbar = () => {
   ];
   const tabItems = tabsInfo.map((item, index) => (
     <Tab size={['md', null, 'lg']} key={index} as={NavLink} to={item.link}>
-      <Icon as={item.icon} />
-      <Text ml={2} display={['none', null, 'inline']}>
-        {item.text}
-      </Text>
+      <Box as={motion.div}>
+        <Icon as={item.icon} />
+        <Text ml={2} display={['none', null, 'inline']}>
+          {item.text}
+        </Text>
+      </Box>
     </Tab>
   ));
   return (
     <>
       <Tabs isFitted variant="solid-rounded" colorScheme="green">
-        <TabList>{tabItems}</TabList> 
+        <TabList>{tabItems}</TabList>
       </Tabs>
     </>
   );

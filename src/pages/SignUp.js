@@ -10,6 +10,9 @@ import {
   useBoolean,
   Divider,
   useToast,
+  useBreakpointValue,
+  Box,
+  Flex,
 } from '@chakra-ui/react';
 import {
   FaEye,
@@ -26,9 +29,10 @@ import {
   sendEmailVerification,
 } from 'firebase/auth';
 import { db } from '../firebase.config';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import SocialLogin from './SocialLogin';
+import { motion } from 'framer-motion';
 
 const SignUp = () => {
   const [isHidden, setIsHidden] = useBoolean(true);
@@ -86,6 +90,41 @@ const SignUp = () => {
       });
     }
   };
+
+  const buttonsInfo = [{ icon: <FaChevronCircleRight />, text: 'Sign In' }];
+  const iconButtonItems = buttonsInfo.map((item, index) => (
+    <Box key={index} as={item.to && Link} to={item.to && item.to}>
+      <IconButton
+        as={motion.button}
+        whileTap={{ scale: 0.8 }}
+        icon={item.icon}
+        colorScheme="green"
+        size="md"
+        fontSize="lg"
+        onClick={item.to ? null : handleSubmit}
+      />
+    </Box>
+  ));
+  const buttonItems = buttonsInfo.map((item, index) => (
+    <Box key={index} as={item.to && Link} to={item.to && item.to}>
+      <Button
+        as={motion.button}
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ scale: 0.8 }}
+        leftIcon={item.icon}
+        colorScheme="green"
+        size="lg"
+        fontSize="xl"
+        onClick={item.to ? null : handleSubmit}
+      >
+        <Text>{item.text}</Text>
+      </Button>
+    </Box>
+  ));
+  const buttonVariants = useBreakpointValue({
+    base: iconButtonItems,
+    md: buttonItems,
+  });
 
   const inputsInfo = [
     { type: 'text', name: 'name', icon1: <FaEnvelope /> },
@@ -159,17 +198,9 @@ const SignUp = () => {
           </FormLabel>
           {inputItems}
 
-          <Button
-            mt={4}
-            leftIcon={<FaChevronCircleRight />}
-            colorScheme="green"
-            size="lg"
-            fontSize="xl"
-            type="submit"
-            onClick={handleSubmit}
-          >
-            <Text display={['none', null, 'inline']}>Sign Up</Text>
-          </Button>
+          <Flex mt={4} justifyContent="space-between">
+            {buttonVariants}
+          </Flex>
           <Divider mt={4} />
           <FormLabel as="legend" fontSize="xl">
             OR Register with:

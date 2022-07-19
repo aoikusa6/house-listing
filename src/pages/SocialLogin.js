@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   ButtonGroup,
   IconButton,
@@ -17,10 +18,11 @@ import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { db } from '../firebase.config';
 import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const SocialLogin = () => {
   const toast = useToast();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleSocialClick = async social => {
     try {
       const auth = getAuth();
@@ -57,7 +59,7 @@ const SocialLogin = () => {
         status: 'success',
         duration: 3000,
       });
-      navigate('/profile')
+      navigate('/profile');
     } catch (error) {
       toast({
         title: `Error creating ${social} account.`,
@@ -72,33 +74,40 @@ const SocialLogin = () => {
     { name: 'Facebook', icon: <FaFacebook />, theme: 'facebook' },
   ];
   const iconButtonItems = buttonsInfo.map((item, index) => (
-    <IconButton
-      key={index}
-      colorScheme={item.theme}
-      icon={item.icon}
-      size="md"
-      fontSize="lg"
-      onClick={() => handleSocialClick(item.name)}
-    />
+    <Box key={index}>
+      <IconButton
+        as={motion.button}
+        whileTap={{ scale: 0.8 }}
+        colorScheme={item.theme}
+        icon={item.icon}
+        size="md"
+        fontSize="lg"
+        onClick={() => handleSocialClick(item.name)}
+      />
+    </Box>
   ));
   const buttonItems = buttonsInfo.map((item, index) => (
-    <Button
-      key={index}
-      leftIcon={item.icon}
-      colorScheme={item.theme}
-      size="lg"
-      fontSize="xl"
-      onClick={() => handleSocialClick(item.name)}
-    >
-      <Text>{item.name}</Text>
-    </Button>
+    <Box key={index}>
+      <Button
+        as={motion.button}
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ scale: 0.8 }}
+        leftIcon={item.icon}
+        colorScheme={item.theme}
+        size="lg"
+        fontSize="xl"
+        onClick={() => handleSocialClick(item.name)}
+      >
+        <Text>{item.name}</Text>
+      </Button>
+    </Box>
   ));
   const buttonVariants = useBreakpointValue({
     base: iconButtonItems,
     md: buttonItems,
   });
   return (
-    <ButtonGroup mt={4} size="lg" fontSize="xl">
+    <ButtonGroup mt={4} size="lg" fontSize="xl" gap={4}>
       {buttonVariants}
     </ButtonGroup>
   );

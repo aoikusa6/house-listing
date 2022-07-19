@@ -11,6 +11,8 @@ import {
   Flex,
   useToast,
   useBreakpointValue,
+  Divider,
+  Box,
 } from '@chakra-ui/react';
 import {
   FaEye,
@@ -22,6 +24,8 @@ import {
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import SocialLogin from './SocialLogin';
+import { motion } from 'framer-motion';
 
 const SignIn = () => {
   const [isHidden, setIsHidden] = useBoolean(true);
@@ -73,30 +77,33 @@ const SignIn = () => {
     { icon: <FaQuestionCircle />, text: 'Forgot password?', to: '/forgot' },
   ];
   const iconButtonItems = buttonsInfo.map((item, index) => (
-    <IconButton
-      key={index}
-      as={item.to && Link}
-      to={item.to && item.to}
-      icon={item.icon}
-      colorScheme="green"
-      size="md"
-      fontSize="lg"
-      onClick={item.to ? null : handleSubmit}
-    />
+    <Box key={index} as={item.to && Link} to={item.to && item.to}>
+      <IconButton
+        as={motion.button}
+        whileTap={{ scale: 0.8 }}
+        icon={item.icon}
+        colorScheme="green"
+        size="md"
+        fontSize="lg"
+        onClick={item.to ? null : handleSubmit}
+      />
+    </Box>
   ));
   const buttonItems = buttonsInfo.map((item, index) => (
-    <Button
-      key={index}
-      as={item.to && Link}
-      to={item.to && item.to}
-      leftIcon={item.icon}
-      colorScheme="green"
-      size="lg"
-      fontSize="xl"
-      onClick={item.to ? null : handleSubmit}
-    >
-      <Text>{item.text}</Text>
-    </Button>
+    <Box key={index} as={item.to && Link} to={item.to && item.to}>
+      <Button
+        as={motion.button}
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ scale: 0.8 }}
+        leftIcon={item.icon}
+        colorScheme="green"
+        size="lg"
+        fontSize="xl"
+        onClick={item.to ? null : handleSubmit}
+      >
+        <Text>{item.text}</Text>
+      </Button>
+    </Box>
   ));
   const buttonVariants = useBreakpointValue({
     base: iconButtonItems,
@@ -170,6 +177,11 @@ const SignIn = () => {
           <Flex mt={4} justifyContent="space-between">
             {buttonVariants}
           </Flex>
+          <Divider mt={4} />
+          <FormLabel as="legend" fontSize="xl">
+            OR Sign in using:
+          </FormLabel>
+          <SocialLogin />
         </FormControl>
       </form>
     </>

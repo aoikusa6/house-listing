@@ -15,6 +15,7 @@ import logo from '../assets/logo.png';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
+import { motion } from 'framer-motion';
 
 const Logo = () => {
   const buttonsInfo = [
@@ -22,28 +23,31 @@ const Logo = () => {
     { link: '/signup', icon: <FaUserPlus />, text: 'Sign Up' },
   ];
   const iconButtonItems = buttonsInfo.map((item, index) => (
-    <IconButton
-      key={index}
-      as={Link}
-      to={item.link}
-      icon={item.icon}
-      colorScheme="green"
-      size="md"
-      fontSize="lg"
-    />
+    <Box as={Link} to={item.link} key={index}>
+      <IconButton
+        as={motion.button}
+        whileTap={{ scale: 0.8 }}
+        icon={item.icon}
+        colorScheme="green"
+        size="md"
+        fontSize="lg"
+      />
+    </Box>
   ));
   const buttonItems = buttonsInfo.map((item, index) => (
-    <Button
-      key={index}
-      as={Link}
-      to={item.link}
-      leftIcon={item.icon}
-      colorScheme="green"
-      size="lg"
-      fontSize="xl"
-    >
-      <Text>{item.text}</Text>
-    </Button>
+    <Box as={Link} to={item.link} key={index}>
+      <Button
+        as={motion.button}
+        whileHover={{ scale: 1.2}}
+        whileTap={{ scale: 0.8 }}
+        leftIcon={item.icon}
+        colorScheme="green"
+        size="lg"
+        fontSize="xl"
+      >
+        <Text>{item.text}</Text>
+      </Button>
+    </Box>
   ));
 
   const buttonVariants = useBreakpointValue({
@@ -61,8 +65,13 @@ const Logo = () => {
         </Box>
 
         <Spacer />
-        <ButtonGroup spacing={4} >
-          <ColorModeSwitcher size={['md', null, 'lg']} />
+        <ButtonGroup spacing={4}>
+          <ColorModeSwitcher
+            size={['md', null, 'lg']}
+            as={motion.button}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.8 }}
+          />
           {buttonVariants}
         </ButtonGroup>
       </Flex>
