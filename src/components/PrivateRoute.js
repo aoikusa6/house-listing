@@ -1,12 +1,12 @@
-import { Text } from '@chakra-ui/react';
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import useAuthStatus from './useAuthStatus';
+import spinnerImage from '../assets/spinnerImage.gif';
 
 const PrivateRoute = () => {
   const { loggedIn, loading } = useAuthStatus();
   if (loading) {
-    return <Text>Loading...</Text>;
+    return spinnerImage;
   }
   return loggedIn ? <Outlet /> : <Navigate to="/signin" />;
 };

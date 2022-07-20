@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChakraProvider, Box, theme, Flex } from '@chakra-ui/react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Logo from './pages/Logo';
 import Footer from './pages/Footer';
@@ -11,8 +11,11 @@ import Offer from './pages/Offer';
 import Explore from './pages/Explore';
 import PrivateRoute from './components/PrivateRoute';
 import ForgotPassword from './pages/ForgotPassword';
+import Category from './pages/Category';
+import { AnimatePresence } from 'framer-motion';
 
 function App() {
+  const location = useLocation();
   return (
     <ChakraProvider theme={theme}>
       <Box>
@@ -20,16 +23,19 @@ function App() {
           <Logo />
           <Navbar />
           <Box flexGrow={1}>
-            <Routes>
-              <Route path="/" element={<Explore />} />
-              <Route path="/offer" element={<Offer />} />
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/forgot" element={<ForgotPassword />} />
-              <Route path="/profile" element={<PrivateRoute />}>
-                <Route path="/profile" element={<Profile />} />
-              </Route>
-            </Routes>
+            <AnimatePresence exitBeforeEnter>
+              <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<Explore />} />
+                <Route path="/offer" element={<Offer />} />
+                <Route path="/category/:categoryName" element={<Category />} />
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/forgot" element={<ForgotPassword />} />
+                <Route path="/profile" element={<PrivateRoute />}>
+                  <Route path="/profile" element={<Profile />} />
+                </Route>
+              </Routes>
+            </AnimatePresence>
           </Box>
           <Footer />
         </Flex>

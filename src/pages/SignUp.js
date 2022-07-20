@@ -189,26 +189,36 @@ const SignUp = () => {
       />
     </InputGroup>
   ));
+  const pageMotion = {
+    initial: { opacity: 0, y: '100%' },
+    animate: { opacity: 1, y: 0, transition: { duration: 1 } },
+    exit: { opacity: 0, y: '-100%', transition: { duration: 1 } },
+  };
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <FormControl as="fieldset" w="50%" mx="auto" mt={4}>
-          <FormLabel as="legend" fontSize="xl">
-            Register your account:
-          </FormLabel>
-          {inputItems}
+    <Box
+      onSubmit={handleSubmit}
+      as={motion.form}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageMotion}
+    >
+      <FormControl as="fieldset" w="50%" mx="auto" mt={4}>
+        <FormLabel as="legend" fontSize="xl">
+          Register your account:
+        </FormLabel>
+        {inputItems}
 
-          <Flex mt={4} justifyContent="space-between">
-            {buttonVariants}
-          </Flex>
-          <Divider mt={4} />
-          <FormLabel as="legend" fontSize="xl">
-            OR Register with:
-          </FormLabel>
-          <SocialLogin />
-        </FormControl>
-      </form>
-    </>
+        <Flex mt={4} justifyContent="space-between">
+          {buttonVariants}
+        </Flex>
+        <Divider mt={4} />
+        <FormLabel as="legend" fontSize="xl">
+          OR Register with:
+        </FormLabel>
+        <SocialLogin />
+      </FormControl>
+    </Box>
   );
 };
 

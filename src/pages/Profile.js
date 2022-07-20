@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   ButtonGroup,
   Flex,
@@ -16,6 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { getAuth, updateProfile } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
+import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import {
   FaAt,
@@ -110,7 +112,10 @@ const Profile = () => {
       <Text>{item.text}</Text>
     </Button>
   ));
-  const buttonVariants = useBreakpointValue({base: iconButtonItems,  md: buttonItems})
+  const buttonVariants = useBreakpointValue({
+    base: iconButtonItems,
+    md: buttonItems,
+  });
 
   const inputsInfo = [
     { type: 'text', name: 'name', icon: <FaEnvelope /> },
@@ -144,22 +149,62 @@ const Profile = () => {
       />
     </InputGroup>
   ));
+  const formMotion = {
+    initial: { opacity: 0, y: '100%' },
+    animate: { opacity: 1, y: 0, transition: { duration: 1 } },
+    exit: { opacity: 0, y: '100%', transition: { duration: 1 } },
+  };
+
+  const buttonMotion = {
+    initial: { opacity: 0, x: '100%' },
+    animate: { opacity: 1, x: 0, transition: { duration: 1 } },
+    exit: { opacity: 0, x: '100%', transition: { duration: 1 } },
+  };
+
+  const headingMotion = {
+    initial: { opacity: 0, x: '-100%' },
+    animate: { opacity: 1, x: 0, transition: { duration: 1 } },
+    exit: { opacity: 0, x: '-100%', transition: { duration: 1 } },
+  };
 
   return (
-    <>
+    <Box>
       <Flex mt={4}>
-        <Heading as="h2" size={['lg', null, 'xl']}>
+        <Heading
+          as={motion.h2}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={headingMotion}
+          size={['lg', null, 'xl']}
+        >
           {name ? `${name}'s` : 'New'} profile
         </Heading>
         <Spacer />
-        <ButtonGroup spacing={4}>{buttonVariants}</ButtonGroup>
+        <ButtonGroup
+          as={motion.div}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={buttonMotion}
+          spacing={4}
+        >
+          {buttonVariants}
+        </ButtonGroup>
       </Flex>
-      <form onSubmit={handleSubmit}>
+      <Box
+        onSubmit={handleSubmit}
+        as={motion.div}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={formMotion}
+      >
         <FormControl as="fieldset" w="50%" mx="auto" mt={4}>
           {inputItems}
         </FormControl>
-      </form>
-    </>
+      </Box>
+    </Box>
   );
 };
 
