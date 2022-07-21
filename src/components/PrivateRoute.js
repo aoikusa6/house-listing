@@ -8,7 +8,7 @@ const PrivateRoute = () => {
   if (loading) {
     return spinnerImage;
   }
-  return loggedIn ? <Outlet /> : <Navigate to="/signin" />;
+  return loggedIn ? <Outlet /> : <Navigate to="/sign-in" />;
 };
 
 export default PrivateRoute;

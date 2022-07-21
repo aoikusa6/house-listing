@@ -3,7 +3,6 @@ import {
   GridItem,
   Heading,
   Image,
-  Spacer,
   Text,
   Badge,
   Icon,
@@ -42,16 +41,17 @@ const ListingItems = ({ listing, id, index }) => {
           },
         }}
         p={4}
-        justify='space-around'
+        justify="space-around"
       >
         <Image
+          my="auto"
           borderRadius="full"
-          boxSize="150px"
+          boxSize={['50px', null, '100px']}
           src={listing.imageUrls[0]}
           alt={listing.name}
         />
         <Flex direction="column" justify="space-around">
-          <Heading as="h4" size="md">
+          <Heading as="h4" size={['sm', null, 'md']}>
             {listing.name}
           </Heading>
           <Text>{listing.location}</Text>
@@ -68,8 +68,12 @@ const ListingItems = ({ listing, id, index }) => {
           <Flex gap={4}>
             <Badge p={2} colorScheme={listing.bedrooms > 1 ? 'green' : 'gray'}>
               <Flex gap={4}>
-                <Icon boxSize={8} as={FaBed} />
-                <Text fontSize="md">
+                <Icon boxSize={[4, null, 8]} as={FaBed} />
+                <Text
+                  display={['none', null, 'inline']}
+                  fontSize="md"
+                  my="auto"
+                >
                   {listing.bedrooms > 1
                     ? `${listing.bedrooms} bedrooms`
                     : '1 bedrooms'}
@@ -78,8 +82,12 @@ const ListingItems = ({ listing, id, index }) => {
             </Badge>
             <Badge p={2} colorScheme={listing.bathrooms > 1 ? 'green' : 'gray'}>
               <Flex gap={4}>
-                <Icon boxSize={8} as={FaBath} />
-                <Text fontSize="md">
+                <Icon boxSize={[4, null, 8]} as={FaBath} />
+                <Text
+                  display={['none', null, 'inline']}
+                  fontSize="md"
+                  my="auto"
+                >
                   {listing.bathrooms > 1
                     ? `${listing.bathrooms} bathrooms`
                     : '1 bathrooms'}

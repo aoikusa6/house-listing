@@ -19,8 +19,8 @@ import { motion } from 'framer-motion';
 
 const Logo = () => {
   const buttonsInfo = [
-    { link: '/signin', icon: <FaChevronCircleRight />, text: 'Sign In' },
-    { link: '/signup', icon: <FaUserPlus />, text: 'Sign Up' },
+    { link: '/sign-in', icon: <FaChevronCircleRight />, text: 'Sign In' },
+    { link: '/sign-up', icon: <FaUserPlus />, text: 'Sign Up' },
   ];
   const iconButtonItems = buttonsInfo.map((item, index) => (
     <Box as={Link} to={item.link} key={index}>

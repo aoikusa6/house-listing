@@ -17,12 +17,14 @@ import React from 'react';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { db } from '../firebase.config';
 import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const SocialLogin = () => {
   const toast = useToast();
   const navigate = useNavigate();
+  const params = useParams()
+  console.log(params)
   const handleSocialClick = async social => {
     try {
       const auth = getAuth();

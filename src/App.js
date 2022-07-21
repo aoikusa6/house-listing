@@ -13,6 +13,7 @@ import PrivateRoute from './components/PrivateRoute';
 import ForgotPassword from './pages/ForgotPassword';
 import Category from './pages/Category';
 import { AnimatePresence } from 'framer-motion';
+import CreateListing from './pages/CreateListing';
 
 function App() {
   const location = useLocation();
@@ -28,9 +29,10 @@ function App() {
                 <Route path="/" element={<Explore />} />
                 <Route path="/offer" element={<Offer />} />
                 <Route path="/category/:categoryName" element={<Category />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
+                <Route path="/sign-in" element={<SignIn />} />
+                <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/forgot" element={<ForgotPassword />} />
+                <Route path="/create-listing" element={<CreateListing />} />
                 <Route path="/profile" element={<PrivateRoute />}>
                   <Route path="/profile" element={<Profile />} />
                 </Route>

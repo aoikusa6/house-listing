@@ -25,8 +25,9 @@ import {
   FaSave,
   FaSignOutAlt,
   FaWrench,
+  FaClinicMedical,
 } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { db } from '../firebase.config';
 
 const Profile = () => {
@@ -91,6 +92,9 @@ const Profile = () => {
   ];
   const iconButtonItems = buttonsInfo.map((item, index) => (
     <IconButton
+      as={motion.button}
+      whileHover={{ scale: 1.2 }}
+      whileTap={{ scale: 0.8 }}
       key={index}
       icon={item.icon}
       colorScheme="green"
@@ -101,6 +105,9 @@ const Profile = () => {
   ));
   const buttonItems = buttonsInfo.map((item, index) => (
     <Button
+      as={motion.button}
+      whileHover={{ scale: 1.2 }}
+      whileTap={{ scale: 0.8 }}
       key={index}
       leftIcon={item.icon}
       colorScheme="green"
@@ -194,7 +201,7 @@ const Profile = () => {
       </Flex>
       <Box
         onSubmit={handleSubmit}
-        as={motion.div}
+        as={motion.form}
         initial="initial"
         animate="animate"
         exit="exit"
@@ -203,6 +210,24 @@ const Profile = () => {
         <FormControl as="fieldset" w="50%" mx="auto" mt={4}>
           {inputItems}
         </FormControl>
+      </Box>
+      <Box as={Link} to="/create-listing" >
+        <Button
+          mt={4}
+          as={motion.button}
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.8 }}
+          leftIcon={<FaClinicMedical/>}
+          colorScheme="green"
+          size="lg"
+          fontSize="xl"
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={headingMotion}
+        >
+          <Text>Add new item for rent / sale</Text>
+        </Button>
       </Box>
     </Box>
   );

@@ -10,18 +10,13 @@ import {
   Text,
   useBreakpointValue,
   Flex,
+  Box,
 } from '@chakra-ui/react';
-import {
-  FaAt,
-  FaPaperPlane,
-  FaHome,
-} from 'react-icons/fa';
+import { FaAt, FaPaperPlane, FaHome } from 'react-icons/fa';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  getAuth,
-  sendPasswordResetEmail,
-} from 'firebase/auth';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
+import { motion } from 'framer-motion';
 
 const ForgotPassword = () => {
   const [forgotFormData, setForgotFormData] = useState({ email: '' });
@@ -114,8 +109,20 @@ const ForgotPassword = () => {
     base: iconButtonItems,
     md: buttonItems,
   });
+  const pageMotion = {
+    initial: { opacity: 0, y: '100%' },
+    animate: { opacity: 1, y: 0, transition: { duration: 1 } },
+    exit: { opacity: 0, y: '100%', transition: { duration: 1 } },
+  };
   return (
-    <form>
+    <Box
+      onSubmit={handleSubmit}
+      as={motion.form}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageMotion}
+    >
       <FormControl as="fieldset" w="50%" mx="auto" mt={4}>
         <FormLabel as="legend" fontSize="xl">
           Enter your email for password recovery:
@@ -125,7 +132,7 @@ const ForgotPassword = () => {
           {buttonVariants}
         </Flex>
       </FormControl>
-    </form>
+    </Box>
   );
 };
 
