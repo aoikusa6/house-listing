@@ -15,6 +15,7 @@ import { motion } from 'framer-motion';
 const ListingItems = ({ listing, id, index }) => {
   return (
     <GridItem
+      w="100%"
       border={2}
       borderStyle="dashed"
       borderColor="cyan.700"
@@ -50,6 +51,7 @@ const ListingItems = ({ listing, id, index }) => {
           src={listing.imageUrls[0]}
           alt={listing.name}
         />
+
         <Flex direction="column" justify="space-around">
           <Heading as="h4" size={['sm', null, 'md']}>
             {listing.name}

@@ -17,14 +17,13 @@ import React from 'react';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import { db } from '../firebase.config';
 import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const SocialLogin = () => {
   const toast = useToast();
   const navigate = useNavigate();
-  const params = useParams()
-  console.log(params)
+
   const handleSocialClick = async social => {
     try {
       const auth = getAuth();
@@ -56,7 +55,7 @@ const SocialLogin = () => {
         });
       }
       toast({
-        title: `Created an account with your ${social} account.`,
+        title: `Logging in with an account from your ${social}.`,
         description: 'Redirecting to your profile',
         status: 'success',
         duration: 3000,
@@ -64,7 +63,7 @@ const SocialLogin = () => {
       navigate('/profile');
     } catch (error) {
       toast({
-        title: `Error creating ${social} account.`,
+        title: `Error creating account from your ${social} account.`,
         description: 'Something goes wrong, please try again',
         status: 'error',
         duration: 3000,
