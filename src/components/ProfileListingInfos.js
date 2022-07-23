@@ -27,6 +27,8 @@ import { Link } from 'react-router-dom';
 import { FaClinicMedical } from 'react-icons/fa';
 
 const ProfileListingInfos = () => {
+  //** Component states & functions **//
+
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(false);
   const auth = getAuth();
@@ -53,7 +55,6 @@ const ProfileListingInfos = () => {
             data: doc.data(),
           });
         });
-
         setListings(listings);
         setLoading(false);
       } catch (error) {
@@ -69,6 +70,32 @@ const ProfileListingInfos = () => {
     fetchListings();
   }, [toast, user.uid]);
 
+  //** Motion setting **//
+
+  const pageMotion = [
+    {
+      rightToLeftShort: {
+        initial: { opacity: 0, x: '100%' },
+        animate: { opacity: 1, x: 0, transition: { duration: 1 } },
+        exit: { opacity: 0, x: '100%', transition: { duration: 1 } },
+      },
+    },
+    {
+      bottomToTopShort: {
+        initial: { opacity: 0, y: '100%' },
+        animate: { opacity: 1, y: 0, transition: { duration: 1 } },
+        exit: { opacity: 0, y: '100%', transition: { duration: 1 } },
+      },
+    },
+    {
+      rightToLeftLong: {
+        initial: { opacity: 0, x: '100%' },
+        animate: { opacity: 1, x: 0, transition: { duration: 2.5 } },
+        exit: { opacity: 0, x: '100%', transition: { duration: 2.5 } },
+      },
+    },
+  ];
+
   return (
     <Flex mt={4} w="100%" direction="column" alignItems="flex-end">
       <Heading
@@ -76,19 +103,7 @@ const ProfileListingInfos = () => {
         initial="initial"
         animate="animate"
         exit="exit"
-        variants={{
-          initial: { opacity: 0, x: '100%' },
-          animate: {
-            opacity: 1,
-            x: 0,
-            transition: { duration: 1 },
-          },
-          exit: {
-            opacity: 0,
-            x: '100%',
-            transition: { duration: 1 },
-          },
-        }}
+        variants={pageMotion[0].rightToLeftShort}
         size="lg"
       >
         Items from your account:
@@ -104,19 +119,7 @@ const ProfileListingInfos = () => {
           initial="initial"
           animate="animate"
           exit="exit"
-          variants={{
-            initial: { opacity: 0, y: '100%' },
-            animate: {
-              opacity: 1,
-              y: 0,
-              transition: { duration: 1 },
-            },
-            exit: {
-              opacity: 0,
-              y: '100%',
-              transition: { duration: 1 },
-            },
-          }}
+          variants={pageMotion[1].bottomToTopShort}
           templateColumns={'repeat(1, 1fr)'}
         >
           {listings.map((listing, index) => (
@@ -143,11 +146,7 @@ const ProfileListingInfos = () => {
           initial="initial"
           animate="animate"
           exit="exit"
-          variants={{
-            initial: { opacity: 0, x: '100%' },
-            animate: { opacity: 1, x: 0, transition: { duration: 2.5 } },
-            exit: { opacity: 0, x: '100%', transition: { duration: 2.5 } },
-          }}
+          variants={pageMotion[2].rightToLeftLong}
           mt={4}
         >
           <Text>Add new item for rent / sale</Text>

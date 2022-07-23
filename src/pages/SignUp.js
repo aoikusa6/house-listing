@@ -35,6 +35,8 @@ import SocialLogin from './SocialLogin';
 import { motion } from 'framer-motion';
 
 const SignUp = () => {
+  //** Component states & functions **//
+
   const [isHidden, setIsHidden] = useBoolean(true);
   const [signUpFormData, setSignUpFormData] = useState({
     name: '',
@@ -53,6 +55,7 @@ const SignUp = () => {
       [name]: value,
     }));
   };
+
   const handleSubmit = async e => {
     e.preventDefault();
     try {
@@ -91,7 +94,10 @@ const SignUp = () => {
     }
   };
 
+  //** Button setting **//
+
   const buttonsInfo = [{ icon: <FaChevronCircleRight />, text: 'Sign In' }];
+
   const iconButtonItems = buttonsInfo.map((item, index) => (
     <Box key={index} as={item.to && Link} to={item.to && item.to}>
       <IconButton
@@ -105,6 +111,7 @@ const SignUp = () => {
       />
     </Box>
   ));
+
   const buttonItems = buttonsInfo.map((item, index) => (
     <Box key={index} as={item.to && Link} to={item.to && item.to}>
       <Button
@@ -121,10 +128,13 @@ const SignUp = () => {
       </Button>
     </Box>
   ));
+
   const buttonVariants = useBreakpointValue({
     base: iconButtonItems,
     md: buttonItems,
   });
+
+  //** Input setting **//
 
   const inputsInfo = [
     { type: 'text', name: 'name', icon1: <FaEnvelope /> },
@@ -142,6 +152,7 @@ const SignUp = () => {
       icon2: <FaEyeSlash />,
     },
   ];
+
   const inputItems = inputsInfo.map((item, index) => (
     <InputGroup mt={4} key={index}>
       <Input
@@ -189,11 +200,15 @@ const SignUp = () => {
       />
     </InputGroup>
   ));
+
+  //** Motion setting **//
+
   const pageMotion = {
     initial: { opacity: 0, y: '100%' },
     animate: { opacity: 1, y: 0, transition: { duration: 1 } },
     exit: { opacity: 0, y: '100%', transition: { duration: 1 } },
   };
+
   return (
     <Box
       onSubmit={handleSubmit}

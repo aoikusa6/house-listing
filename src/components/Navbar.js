@@ -5,12 +5,15 @@ import { FaCompass, FaCoins, FaUserTie, FaHome } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 
 const Navbar = () => {
+  //** Tab setting **//
+
   const tabsInfo = [
     { link: '/', icon: FaCompass, text: 'Explore' },
     { link: '/offer', icon: FaCoins, text: 'Offers' },
     { link: '/profile', icon: FaUserTie, text: 'Profile' },
     { link: '/about', icon: FaHome, text: 'About' },
   ];
+
   const tabItems = tabsInfo.map((item, index) => (
     <Tab size={['md', null, 'lg']} key={index} as={NavLink} to={item.link}>
       <Box as={motion.div}>
@@ -21,6 +24,7 @@ const Navbar = () => {
       </Box>
     </Tab>
   ));
+
   return (
     <>
       <Tabs isFitted variant="solid-rounded" colorScheme="green">

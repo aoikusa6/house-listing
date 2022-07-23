@@ -18,10 +18,13 @@ import { ColorModeSwitcher } from '../ColorModeSwitcher';
 import { motion } from 'framer-motion';
 
 const Logo = () => {
+  //** Button setting **//
+
   const buttonsInfo = [
     { link: '/sign-in', icon: <FaChevronCircleRight />, text: 'Sign In' },
     { link: '/sign-up', icon: <FaUserPlus />, text: 'Sign Up' },
   ];
+
   const iconButtonItems = buttonsInfo.map((item, index) => (
     <Box as={Link} to={item.link} key={index}>
       <IconButton
@@ -34,11 +37,12 @@ const Logo = () => {
       />
     </Box>
   ));
+
   const buttonItems = buttonsInfo.map((item, index) => (
     <Box as={Link} to={item.link} key={index}>
       <Button
         as={motion.button}
-        whileHover={{ scale: 1.2}}
+        whileHover={{ scale: 1.2 }}
         whileTap={{ scale: 0.8 }}
         leftIcon={item.icon}
         colorScheme="green"
@@ -54,6 +58,7 @@ const Logo = () => {
     base: iconButtonItems,
     md: buttonItems,
   });
+  
   return (
     <>
       <Flex py={4} gap={4}>

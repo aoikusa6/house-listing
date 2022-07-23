@@ -19,9 +19,12 @@ import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { motion } from 'framer-motion';
 
 const ForgotPassword = () => {
+  //** Component states & functions **//
+
   const [forgotFormData, setForgotFormData] = useState({ email: '' });
   const { email } = forgotFormData;
   const toast = useToast();
+
   const handleChange = e => {
     const { name, value } = e.target;
     setForgotFormData(prevState => ({
@@ -29,6 +32,7 @@ const ForgotPassword = () => {
       [name]: value,
     }));
   };
+
   const handleSubmit = async e => {
     e.preventDefault();
     try {
@@ -49,7 +53,11 @@ const ForgotPassword = () => {
       });
     }
   };
+
+  //** Input setting **//
+
   const inputsInfo = [{ type: 'text', name: 'email', icon1: <FaAt /> }];
+
   const inputItems = inputsInfo.map((item, index) => (
     <InputGroup mt={4} key={index}>
       <Input
@@ -74,6 +82,8 @@ const ForgotPassword = () => {
     </InputGroup>
   ));
 
+  //** Button setting **//
+
   const buttonsInfo = [
     { icon: <FaPaperPlane />, text: 'Send' },
     { icon: <FaHome />, text: 'Back to Homepage', to: '/' },
@@ -91,6 +101,7 @@ const ForgotPassword = () => {
       onClick={item.to ? null : handleSubmit}
     />
   ));
+
   const buttonItems = buttonsInfo.map((item, index) => (
     <Button
       key={index}
@@ -105,15 +116,20 @@ const ForgotPassword = () => {
       <Text>{item.text}</Text>
     </Button>
   ));
+
   const buttonVariants = useBreakpointValue({
     base: iconButtonItems,
     md: buttonItems,
   });
+
+  //** Motion setting **//
+
   const pageMotion = {
     initial: { opacity: 0, y: '100%' },
     animate: { opacity: 1, y: 0, transition: { duration: 1 } },
     exit: { opacity: 0, y: '100%', transition: { duration: 1 } },
   };
+
   return (
     <Box
       onSubmit={handleSubmit}

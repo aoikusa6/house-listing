@@ -13,6 +13,7 @@ import { FaBed, FaBath } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const ListingItems = ({ listing, id, index }) => {
+  
   return (
     <GridItem
       w="100%"

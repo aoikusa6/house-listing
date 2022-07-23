@@ -28,6 +28,8 @@ import { useNavigate } from 'react-router-dom';
 import { db } from '../firebase.config';
 
 const ProfilePersonalInfos = () => {
+  //** Component states & functions **//
+
   const auth = getAuth();
   const toast = useToast();
   const [isEdit, setIsEdit] = useBoolean(false);
@@ -41,10 +43,12 @@ const ProfilePersonalInfos = () => {
   const handleEdit = () => {
     setIsEdit.toggle();
   };
+
   const handleLogout = () => {
     auth.signOut();
     navigate('/');
   };
+
   const handleChange = e => {
     const { name, value } = e.target;
     setProfileFormData(prevState => ({
@@ -52,6 +56,7 @@ const ProfilePersonalInfos = () => {
       [name]: value,
     }));
   };
+
   const handleSubmit = async e => {
     e.preventDefault();
     try {
@@ -79,14 +84,16 @@ const ProfilePersonalInfos = () => {
     }
   };
 
-  //motion config
+  //** Motion setting **//
+
   const generalMotion = {
     initial: { opacity: 0, x: '-100%' },
     animate: { opacity: 1, x: 0, transition: { duration: 1 } },
     exit: { opacity: 0, x: '-100%', transition: { duration: 1 } },
   };
 
-  //Button config and map//
+  //** Button setting **//
+
   const buttonsInfo = [
     {
       icon: isEdit ? <FaSave /> : <FaWrench />,
@@ -95,6 +102,7 @@ const ProfilePersonalInfos = () => {
     },
     { icon: <FaSignOutAlt />, action: handleLogout, text: 'Logout' },
   ];
+
   const iconButtonItems = buttonsInfo.map((item, index) => (
     <IconButton
       as={motion.button}
@@ -108,6 +116,7 @@ const ProfilePersonalInfos = () => {
       onClick={item.action}
     />
   ));
+
   const buttonItems = buttonsInfo.map((item, index) => (
     <Button
       as={motion.button}
@@ -124,12 +133,14 @@ const ProfilePersonalInfos = () => {
       <Text>{item.text}</Text>
     </Button>
   ));
+  
   const buttonVariants = useBreakpointValue({
     base: iconButtonItems,
     md: buttonItems,
   });
 
-  //Input config and map
+  //** Input setting **//
+
   const inputsInfo = [
     { type: 'text', name: 'name', icon: <FaEnvelope /> },
     { type: 'text', name: 'email', icon: <FaAt /> },

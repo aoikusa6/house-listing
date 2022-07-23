@@ -1,14 +1,14 @@
-import { Flex } from '@chakra-ui/react';
+import { Grid } from '@chakra-ui/react';
 import React from 'react';
 import ProfileListingInfos from '../components/ProfileListingInfos';
 import ProfilePersonalInfos from '../components/ProfilePersonalInfos';
 
 const Profile = () => {
   return (
-    <Flex gap={4}>
+    <Grid gap={4} templateColumns={['repeat(1, 1fr)', null, 'repeat(2, 1fr)']}>
       <ProfilePersonalInfos />
       <ProfileListingInfos />
-    </Flex>
+    </Grid>
   );
 };
 

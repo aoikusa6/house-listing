@@ -16,6 +16,8 @@ import ListingItems from '../components/ListingItems';
 import { motion } from 'framer-motion';
 
 const Offer = () => {
+  //** Component states & functions **//
+
   const [listings, setListings] = useState(null);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
@@ -56,6 +58,14 @@ const Offer = () => {
     fetchListings();
   }, [toast]);
 
+  //** Motion setting **//
+
+  const pageMotion = {
+    initial: { opacity: 0, y: '100%' },
+    animate: { opacity: 1, y: 0, transition: { duration: 1 } },
+    exit: { opacity: 0, y: '100%', transition: { duration: 1 } },
+  };
+
   return (
     <Box mt={4}>
       <Heading as="h2" size="lg" textAlign="center">
@@ -71,19 +81,7 @@ const Offer = () => {
           initial="initial"
           animate="animate"
           exit="exit"
-          variants={{
-            initial: { opacity: 0, y: '100%' },
-            animate: {
-              opacity: 1,
-              y: 0,
-              transition: { duration: 1 },
-            },
-            exit: {
-              opacity: 0,
-              y: '100%',
-              transition: { duration: 1 },
-            },
-          }}
+          variants={pageMotion}
           templateColumns={['repeat(1, 1fr)', null, 'repeat(2, 1fr)']}
         >
           {listings.map((listing, index) => (

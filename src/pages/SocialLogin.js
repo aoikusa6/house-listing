@@ -1,7 +1,7 @@
 import {
   Box,
   Button,
-  ButtonGroup,
+  Flex,
   IconButton,
   Text,
   useBreakpointValue,
@@ -21,6 +21,8 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const SocialLogin = () => {
+  //** Component states & functions **//
+
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -70,10 +72,14 @@ const SocialLogin = () => {
       });
     }
   };
+
+  //** Button setting **//
+
   const buttonsInfo = [
     { name: 'Google', icon: <FaGoogle />, theme: 'red' },
     { name: 'Facebook', icon: <FaFacebook />, theme: 'facebook' },
   ];
+
   const iconButtonItems = buttonsInfo.map((item, index) => (
     <Box key={index}>
       <IconButton
@@ -87,6 +93,7 @@ const SocialLogin = () => {
       />
     </Box>
   ));
+
   const buttonItems = buttonsInfo.map((item, index) => (
     <Box key={index}>
       <Button
@@ -103,14 +110,16 @@ const SocialLogin = () => {
       </Button>
     </Box>
   ));
+
   const buttonVariants = useBreakpointValue({
     base: iconButtonItems,
     md: buttonItems,
   });
+
   return (
-    <ButtonGroup mt={4} size="lg" fontSize="xl" gap={4}>
+    <Flex mt={4} justifyContent="space-between">
       {buttonVariants}
-    </ButtonGroup>
+    </Flex>
   );
 };
 

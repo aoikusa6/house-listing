@@ -7,6 +7,8 @@ import exterior from '../assets/exterior.png';
 import { FaCoins, FaMoneyBill } from 'react-icons/fa';
 
 const Explore = () => {
+  //** Image setting **//
+
   const imgsInfo = [
     {
       to: '/category/rent',
@@ -21,11 +23,7 @@ const Explore = () => {
       text: 'Buy a property',
     },
   ];
-  const pageMotion = {
-    initial: { opacity: 0, y: '100%' },
-    animate: { opacity: 1, y: 0, transition: { duration: 1 } },
-    exit: { opacity: 0, y: '100%', transition: { duration: 1 } },
-  };
+
   const imgItems = imgsInfo.map((item, index) => (
     <Flex gap={8} direction="column" as={Link} to={item.to} w={400} key={index}>
       <Image
@@ -52,6 +50,15 @@ const Explore = () => {
       </Button>
     </Flex>
   ));
+
+  //** Motion setting **//
+
+  const pageMotion = {
+    initial: { opacity: 0, y: '100%' },
+    animate: { opacity: 1, y: 0, transition: { duration: 1 } },
+    exit: { opacity: 0, y: '100%', transition: { duration: 1 } },
+  };
+  
   return (
     <Flex
       as={motion.div}
