@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChakraProvider, Box, theme, Flex } from '@chakra-ui/react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Logo from './pages/Logo';
 import Footer from './pages/Footer';
@@ -12,8 +13,8 @@ import Explore from './pages/Explore';
 import PrivateRoute from './components/PrivateRoute';
 import ForgotPassword from './pages/ForgotPassword';
 import Category from './pages/Category';
-import { AnimatePresence } from 'framer-motion';
 import CreateListing from './pages/CreateListing';
+import SingleListItem from './pages/SingleListItem';
 
 function App() {
   const location = useLocation();
@@ -33,6 +34,10 @@ function App() {
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/forgot" element={<ForgotPassword />} />
                 <Route path="/create-listing" element={<CreateListing />} />
+                <Route
+                  path="/category/:categoryName/:singleListItemId"
+                  element={<SingleListItem />}
+                />
                 <Route path="/profile" element={<PrivateRoute />}>
                   <Route path="/profile" element={<Profile />} />
                 </Route>

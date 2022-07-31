@@ -13,7 +13,6 @@ import { FaBed, FaBath } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 const ListingItems = ({ listing, id, index }) => {
-  
   return (
     <GridItem
       w="100%"
@@ -62,11 +61,10 @@ const ListingItems = ({ listing, id, index }) => {
             {listing.offer
               ? listing.discountedPrice
                   .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',') 
               : listing.regularPrice
                   .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            VND {listing.type === 'rent' && '/ Month'}
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} VND {listing.type === 'rent' && '/ Month'}
           </Heading>
           <Flex gap={4}>
             <Badge p={2} colorScheme={listing.bedrooms > 1 ? 'green' : 'gray'}>

@@ -1,5 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from 'firebase/storage';
+import { db } from '../firebase.config';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -31,11 +39,11 @@ import {
   FaMoneyBillWave,
   FaReceipt,
   FaTag,
-  FaUpload,
   FaWindowClose,
 } from 'react-icons/fa';
+import { v4 as uuidv4 } from 'uuid';
+
 const CreateListing = () => {
-  const [geolocationIsEnabled, setGeolocationIsEnable] = useState(true);
   const [loading, setIsLoading] = useState(false);
   const [listingFormData, setListingFormData] = useState({
     type: 'rent',
@@ -48,9 +56,7 @@ const CreateListing = () => {
     offer: true,
     regularPrice: '',
     discountedPrice: '',
-    images: '',
-    latitude: 0,
-    longitude: 0,
+    images: {},
   });
   const {
     type,
@@ -64,15 +70,12 @@ const CreateListing = () => {
     regularPrice,
     discountedPrice,
     images,
-    latitude,
-    longitude,
   } = listingFormData;
   const auth = getAuth();
   const navigate = useNavigate();
   const toast = useToast();
   const isMounted = useRef(true);
 
-  console.log(listingFormData);
   useEffect(() => {
     if (isMounted) {
       onAuthStateChanged(auth, user => {
@@ -98,7 +101,7 @@ const CreateListing = () => {
     if (value === 'false') {
       boolean = false;
     }
-    console.log(name, value, boolean);
+
     if (files) {
       setListingFormData(prevState => ({
         ...prevState,
@@ -113,8 +116,121 @@ const CreateListing = () => {
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
+    setIsLoading(true);
+
+    if (discountedPrice >= regularPrice) {
+      setIsLoading(false);
+      toast({
+        title: 'Wrong input.',
+        description: 'Discounted price need to be less than regular price.',
+        status: 'error',
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (images.length > 5) {
+      setIsLoading(false);
+      toast({
+        title: 'Too many files.',
+        description: 'Maximum 5 images',
+        status: 'error',
+        duration: 3000,
+      });
+      return;
+    }
+
+    let geoLocation = {};
+    let location;
+    try {
+      const response = await fetch(
+        `http://api.positionstack.com/v1/forward?access_key=${process.env.REACT_APP_GEOCODE_API_KEY}&query=${address}`
+      );
+
+      const data = await response.json();
+
+      geoLocation.lat = data.data[0]?.latitude ?? 0;
+      geoLocation.lng = data.data[0]?.longitude ?? 0;
+
+      location =
+        data.status === 'ZERO_RESULTS' ? undefined : data.data[0]?.label;
+
+      console.log(geoLocation, location);
+    } catch (error) {
+      setIsLoading(false);
+      toast({
+        title: 'Wrong location.',
+        description: 'Please enter a correct address.',
+        status: 'error',
+        duration: 3000,
+      });
+      return;
+    }
+
+    const storeImage = async image => {
+      return new Promise((resolve, reject) => {
+        const storage = getStorage();
+        const fileName = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+
+        const storageRef = ref(storage, 'image/' + fileName);
+        const uploadTask = uploadBytesResumable(storageRef, image);
+
+        uploadTask.on(
+          'state_changed',
+          snapshot => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+          },
+          error => {
+            reject(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then(downloadURL => {
+              resolve(downloadURL);
+            });
+          }
+        );
+      });
+    };
+
+    const imageUrls = await Promise.all(
+      [...images].map(image => storeImage(image))
+    ).catch(() => {
+      setIsLoading(false);
+      toast({
+        title: 'Can not upload your images.',
+        description: 'Please check your images then try again.',
+        status: 'error',
+        duration: 3000,
+      });
+      return;
+    });
+
+    const listingFormDataCopy = {
+      ...listingFormData,
+      imageUrls,
+      geoLocation,
+      timestamp: serverTimestamp(),
+    };
+    delete listingFormDataCopy.address;
+    delete listingFormDataCopy.images;
+    console.log(listingFormDataCopy);
+
+    const docRef = await addDoc(
+      collection(db, 'listings'),
+      listingFormDataCopy
+    );
+    setIsLoading(false);
+    toast({
+      title: 'New property added.',
+      description: 'Redirecting to your new item.',
+      status: 'success',
+      duration: 3000,
+    });
+    navigate(`/category/${listingFormDataCopy.type}/${docRef.id}`);
   };
 
   //** Motion setting **//
@@ -203,28 +319,13 @@ const CreateListing = () => {
             as={motion.input}
             borderRadius="full"
             type="file"
+            max={5}
             placeholder="Upload your property images"
             name="images"
+            accept=".jpg,.png,.jpeg"
+            multiple
+            onChange={handleChange}
           />
-          <InputRightElement w="fit-content">
-            <Button
-              as={motion.button}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              variants={rightToLeftMotion}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.8 }}
-              colorScheme={type === 'rent' ? 'green' : 'gray'}
-              size="md"
-              fontSize="lg"
-              leftIcon={<FaUpload />}
-              w="100%"
-              borderRadius="full"
-            >
-              <Text>Upload</Text>
-            </Button>
-          </InputRightElement>
         </InputGroup>
         <Grid
           templateColumns={['repeat(1, 1fr)', null, 'repeat(2, 1fr)']}
@@ -245,14 +346,7 @@ const CreateListing = () => {
               value={bathrooms}
               onChange={handleChange}
             />
-            <InputRightElement
-              as={motion.icon}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              variants={leftToRightMotion}
-              children={<Icon color="green" as={FaBath} />}
-            />
+            <InputRightElement children={<Icon color="green" as={FaBath} />} />
           </InputGroup>
           <InputGroup>
             <Input
@@ -287,11 +381,6 @@ const CreateListing = () => {
               onChange={handleChange}
             />
             <InputRightElement
-              as={motion.icon}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              variants={leftToRightMotion}
               children={<Icon color="green" as={FaMoneyBill} />}
             />
           </InputGroup>
@@ -323,14 +412,14 @@ const CreateListing = () => {
               as={motion.button}
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.8 }}
-              colorScheme={type === 'sell' ? 'green' : 'gray'}
+              colorScheme={type === 'sale' ? 'green' : 'gray'}
               size="md"
               fontSize="lg"
               leftIcon={<FaMoneyBill />}
               w="100%"
               borderRadius="full"
               name="type"
-              value="sell"
+              value="sale"
               onClick={handleChange}
             >
               <Text>Sell</Text>
@@ -352,11 +441,6 @@ const CreateListing = () => {
               onChange={handleChange}
             />
             <InputRightElement
-              as={motion.icon}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              variants={leftToRightMotion}
               display={offer ? 'inherit' : 'none'}
               children={<Icon color="green" as={FaMoneyBillWave} />}
             />
@@ -499,6 +583,7 @@ const CreateListing = () => {
           size="md"
           fontSize="lg"
           leftIcon={<FaClinicMedical />}
+          onClick={handleSubmit}
         >
           <Text>Create new listing</Text>
         </Button>

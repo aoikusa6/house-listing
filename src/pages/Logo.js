@@ -63,8 +63,8 @@ const Logo = () => {
     <>
       <Flex py={4} gap={4}>
         <Box as={Link} to="/">
-          <Img src={logo} width={[150, null, 200]} />
-          <Heading as="h2" size={['lg', null, 'xl']} color="green.500">
+          <Img src={logo} width={[100, null, 150]} />
+          <Heading as="h2" size={['md', null, 'lg']} color="green.500">
             Land market
           </Heading>
         </Box>
