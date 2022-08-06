@@ -25,6 +25,7 @@ import { motion } from 'framer-motion';
 import { getAuth } from 'firebase/auth';
 import { Link } from 'react-router-dom';
 import { FaClinicMedical } from 'react-icons/fa';
+import SpinnerSolar from './SpinnerSolar';
 
 const ProfileListingInfos = () => {
   //** Component states & functions **//
@@ -109,7 +110,7 @@ const ProfileListingInfos = () => {
         Items from your account:
       </Heading>
       {loading ? (
-        spinnerImage
+        <SpinnerSolar/>
       ) : listings && listings.length > 0 ? (
         <Grid
           w="100%"

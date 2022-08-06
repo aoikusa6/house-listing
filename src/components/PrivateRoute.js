@@ -1,12 +1,12 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import useAuthStatus from './useAuthStatus';
-import spinnerImage from '../assets/spinnerImage.gif';
+import SpinnerSolar from './SpinnerSolar';
 
 const PrivateRoute = () => {
   const { loggedIn, loading } = useAuthStatus();
   if (loading) {
-    return spinnerImage;
+    return <SpinnerSolar/>;
   }
   return loggedIn ? <Outlet /> : <Navigate to="/sign-in" />;
 };

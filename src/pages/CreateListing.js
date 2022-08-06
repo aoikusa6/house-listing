@@ -42,6 +42,7 @@ import {
   FaWindowClose,
 } from 'react-icons/fa';
 import { v4 as uuidv4 } from 'uuid';
+import SpinnerSolar from '../components/SpinnerSolar';
 
 const CreateListing = () => {
   const [loading, setIsLoading] = useState(false);
@@ -157,7 +158,6 @@ const CreateListing = () => {
       location =
         data.status === 'ZERO_RESULTS' ? undefined : data.data[0]?.label;
 
-      console.log(geoLocation, location);
     } catch (error) {
       setIsLoading(false);
       toast({
@@ -182,7 +182,7 @@ const CreateListing = () => {
           snapshot => {
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
+
           },
           error => {
             reject(error);
@@ -213,11 +213,11 @@ const CreateListing = () => {
       ...listingFormData,
       imageUrls,
       geoLocation,
+      location,
       timestamp: serverTimestamp(),
     };
     delete listingFormDataCopy.address;
     delete listingFormDataCopy.images;
-    console.log(listingFormDataCopy);
 
     const docRef = await addDoc(
       collection(db, 'listings'),
@@ -254,7 +254,7 @@ const CreateListing = () => {
   };
 
   if (loading) {
-    return <Spinner />;
+    return <SpinnerSolar />;
   }
   return (
     <Box

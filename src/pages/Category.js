@@ -12,15 +12,16 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebase.config';
 import { Box, Grid, Heading, Text, useToast } from '@chakra-ui/react';
-import spinnerImage from '../assets/spinnerImage.gif';
+
 import ListingItems from '../components/ListingItems';
 import { motion } from 'framer-motion';
+import SpinnerSolar from '../components/SpinnerSolar';
 
 const Category = () => {
   //** Component states & functions **//
 
   const [listings, setListings] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
   const toast = useToast();
 
@@ -46,7 +47,7 @@ const Category = () => {
         });
 
         setListings(listings);
-        setLoading(false);
+        setIsLoading(false);
       } catch (error) {
         toast({
           title: 'Error connecting to server.',
@@ -74,8 +75,8 @@ const Category = () => {
           ? `Places for ${params.categoryName}`
           : `Places for ${params.categoryName}`}
       </Heading>
-      {loading ? (
-        spinnerImage
+      {isLoading ? (
+        <SpinnerSolar/>
       ) : listings && listings.length > 0 ? (
         <Grid
           mt={4}
