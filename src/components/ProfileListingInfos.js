@@ -133,7 +133,7 @@ const ProfileListingInfos = () => {
           ))}
         </Grid>
       ) : (
-        <Text>There are no current offer</Text>
+        <Text>There are no item from your account</Text>
       )}
       <Box as={Link} to="/create-listing">
         <Button

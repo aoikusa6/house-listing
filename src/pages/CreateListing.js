@@ -20,7 +20,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Spinner,
+  
   Text,
   useToast,
 } from '@chakra-ui/react';
@@ -116,6 +116,8 @@ const CreateListing = () => {
       }));
     }
   };
+
+  console.log(listingFormData)
 
   const handleSubmit = async e => {
     e.preventDefault();

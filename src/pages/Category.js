@@ -98,7 +98,7 @@ const Category = () => {
           ))}
         </Grid>
       ) : (
-        <Text>No listing for {params.categoryName}</Text>
+        <SpinnerSolar/>
       )}
     </Box>
   );

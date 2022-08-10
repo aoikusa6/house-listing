@@ -1,16 +1,21 @@
 import { Box, keyframes } from '@chakra-ui/react';
 import React from 'react';
 
-const rotation = keyframes`
+const rotationCounterClockwise = keyframes`
+  from {transform: rotate(360deg);}
+  to {transform: rotate(0deg)}
+`;
+
+const rotationClockwise = keyframes`
   from {transform: rotate(0deg);}
   to {transform: rotate(360deg)}
 `;
 
 const SpinnerSolar = () => {
-  const rotationAnimation = `${rotation} infinite 2s linear`;
   return (
     <Box
       backgroundColor="#2c3e50"
+      opacity={0.9}
       height="100%"
       width="100%"
       position="fixed"
@@ -43,7 +48,7 @@ const SpinnerSolar = () => {
         top={0}
         bottom={0}
         margin="auto"
-        animation={`${rotation} infinite 2s linear`}
+        animation={`${rotationCounterClockwise} infinite 0.9s linear`}
       >
         <Box
           position="absolute"
@@ -70,7 +75,7 @@ const SpinnerSolar = () => {
         top={0}
         bottom={0}
         margin="auto"
-        animation={`${rotation} infinite 3s linear`}
+        animation={`${rotationClockwise} infinite 2.2s linear`}
       >
         <Box
           position="absolute"
@@ -97,7 +102,7 @@ const SpinnerSolar = () => {
         top={0}
         bottom={0}
         margin="auto"
-        animation={`${rotation} infinite 4s linear`}
+        animation={`${rotationCounterClockwise} infinite 3.6s linear`}
       >
         <Box
           position="absolute"
@@ -124,7 +129,7 @@ const SpinnerSolar = () => {
         top={0}
         bottom={0}
         margin="auto"
-        animation={`${rotation} infinite 5s linear`}
+        animation={`${rotationCounterClockwise} infinite 6.8s linear`}
       >
         <Box
           position="absolute"
