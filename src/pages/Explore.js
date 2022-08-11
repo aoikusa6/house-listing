@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import interior from '../assets/interior.png';
 import exterior from '../assets/exterior.png';
 import { FaCoins, FaMoneyBill } from 'react-icons/fa';
+import RecentCarousel from '../components/RecentCarousel';
 
 const Explore = () => {
   //** Image setting **//
@@ -58,21 +59,24 @@ const Explore = () => {
     animate: { opacity: 1, y: 0, transition: { duration: 1 } },
     exit: { opacity: 0, y: '100%', transition: { duration: 1 } },
   };
-  
+
   return (
-    <Flex
-      as={motion.div}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageMotion}
-      mt={8}
-      justify="space-around"
-      gap={4}
-      alignContent="center"
-    >
-      {imgItems}
-    </Flex>
+    <>
+      <RecentCarousel/>
+      <Flex
+        as={motion.div}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageMotion}
+        mt={8}
+        justify="space-around"
+        gap={4}
+        alignContent="center"
+      >
+        {imgItems}
+      </Flex>
+    </>
   );
 };
 

@@ -45,7 +45,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SpinnerSolar from '../components/SpinnerSolar';
 
 const CreateListing = () => {
-  const [loading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [listingFormData, setListingFormData] = useState({
     type: 'rent',
     name: '',
@@ -255,7 +255,7 @@ const CreateListing = () => {
     exit: { opacity: 0, x: '100%', transition: { duration: 1 } },
   };
 
-  if (loading) {
+  if (isLoading) {
     return <SpinnerSolar />;
   }
   return (

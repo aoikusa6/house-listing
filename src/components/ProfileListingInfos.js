@@ -19,7 +19,6 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import spinnerImage from '../assets/spinnerImage.gif';
 import ListingItems from '../components/ListingItems';
 import { motion } from 'framer-motion';
 import { getAuth } from 'firebase/auth';
@@ -31,7 +30,7 @@ const ProfileListingInfos = () => {
   //** Component states & functions **//
 
   const [listings, setListings] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const auth = getAuth();
   const user = auth.currentUser;
   const toast = useToast();
@@ -57,7 +56,7 @@ const ProfileListingInfos = () => {
           });
         });
         setListings(listings);
-        setLoading(false);
+        setIsLoading(false);
       } catch (error) {
         toast({
           title: 'Error connecting to server.',
@@ -97,6 +96,10 @@ const ProfileListingInfos = () => {
     },
   ];
 
+  if (isLoading) {
+    return <SpinnerSolar />;
+  }
+
   return (
     <Flex mt={4} w="100%" direction="column" alignItems="flex-end">
       <Heading
@@ -109,9 +112,7 @@ const ProfileListingInfos = () => {
       >
         Items from your account:
       </Heading>
-      {loading ? (
-        <SpinnerSolar/>
-      ) : listings && listings.length > 0 ? (
+      {listings && listings.length > 0 ? (
         <Grid
           w="100%"
           mt={4}

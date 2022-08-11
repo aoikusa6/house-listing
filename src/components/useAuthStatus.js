@@ -3,7 +3,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const useAuthStatus = () => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const isMounted = useRef(true);
 
   useEffect(() => {
@@ -13,14 +13,14 @@ const useAuthStatus = () => {
         if (user) {
           setLoggedIn(true);
         }
-        setLoading(false);
+        setIsLoading(false);
       });
     }
     return () => {
       isMounted.current = false;
     };
   }, [isMounted]);
-  return { loggedIn, loading };
+  return { loggedIn, isLoading };
 };
 
 export default useAuthStatus;

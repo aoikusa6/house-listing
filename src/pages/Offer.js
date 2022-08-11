@@ -66,15 +66,17 @@ const Offer = () => {
     exit: { opacity: 0, y: '100%', transition: { duration: 1 } },
   };
 
+  if (isLoading) {
+    return <SpinnerSolar />;
+  }
+
   return (
     <Box mt={4}>
       <Heading as="h2" size="lg" textAlign="center">
         Items with discount
       </Heading>
-      
-      {isLoading ? (
-        <SpinnerSolar/>
-      ) : listings && listings.length > 0 ? (
+
+      {listings && listings.length > 0 ? (
         <Grid
           mt={4}
           gap={2}
@@ -95,7 +97,7 @@ const Offer = () => {
           ))}
         </Grid>
       ) : (
-        <SpinnerSolar/>
+        <SpinnerSolar />
       )}
     </Box>
   );

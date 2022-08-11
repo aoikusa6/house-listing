@@ -21,7 +21,7 @@ const Category = () => {
   //** Component states & functions **//
 
   const [listings, setListings] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const params = useParams();
   const toast = useToast();
 
@@ -68,6 +68,10 @@ const Category = () => {
     exit: { opacity: 0, y: '100%', transition: { duration: 1 } },
   };
 
+  if (isLoading) {
+    return <SpinnerSolar />;
+  }
+
   return (
     <Box mt={4}>
       <Heading as="h2" size="lg" textAlign="center">
@@ -75,9 +79,7 @@ const Category = () => {
           ? `Places for ${params.categoryName}`
           : `Places for ${params.categoryName}`}
       </Heading>
-      {isLoading ? (
-        <SpinnerSolar/>
-      ) : listings && listings.length > 0 ? (
+      {listings && listings.length > 0 ? (
         <Grid
           mt={4}
           gap={2}
@@ -98,7 +100,7 @@ const Category = () => {
           ))}
         </Grid>
       ) : (
-        <SpinnerSolar/>
+        <SpinnerSolar />
       )}
     </Box>
   );

@@ -4,8 +4,8 @@ import useAuthStatus from './useAuthStatus';
 import SpinnerSolar from './SpinnerSolar';
 
 const PrivateRoute = () => {
-  const { loggedIn, loading } = useAuthStatus();
-  if (loading) {
+  const { loggedIn, isLoading } = useAuthStatus();
+  if (isLoading) {
     return <SpinnerSolar/>;
   }
   return loggedIn ? <Outlet /> : <Navigate to="/sign-in" />;
