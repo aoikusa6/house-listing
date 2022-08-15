@@ -44,8 +44,6 @@ const RecentCarousel = () => {
     fetchListings();
   }, [toast]);
 
-  console.log(listings);
-
   if (isLoading) {
     return <SpinnerSolar />;
   }

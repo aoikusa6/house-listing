@@ -12,7 +12,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import {
-  Link,
+  
   useNavigate,
   useParams,
   useSearchParams,
@@ -24,11 +24,10 @@ const ContactLandlord = () => {
   const [landlord, setLandlord] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  console.log(message)
-
   const params = useParams();
   const toast = useToast();
   const navigate = useNavigate();
+  
   useEffect(() => {
     const getLandlord = async () => {
       const docRef = doc(db, 'users', params.landlordId);

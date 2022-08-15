@@ -5,7 +5,7 @@ import ProfilePersonalInfos from '../components/ProfilePersonalInfos';
 
 const Profile = () => {
   return (
-    <Grid gap={4} templateColumns={['repeat(1, 1fr)', null, 'repeat(2, 1fr)']}>
+    <Grid gap={4} templateColumns={['repeat(1, 1fr)', null, null, 'repeat(2, 1fr)']}>
       <ProfilePersonalInfos />
       <ProfileListingInfos />
     </Grid>

@@ -17,7 +17,6 @@ import CreateListing from './pages/CreateListing';
 import SingleListItem from './pages/SingleListItem';
 import ContactLandlord from './pages/ContactLandlord';
 import About from './pages/About';
-
 function App() {
   const location = useLocation();
   return (
@@ -36,8 +35,11 @@ function App() {
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/forgot" element={<ForgotPassword />} />
                 <Route path="/create-listing" element={<CreateListing />} />
-                <Route path='/contact/:landlordId' element={<ContactLandlord/>}/>
-                <Route path='/about' element={<About/>}/>
+                <Route
+                  path="/contact/:landlordId"
+                  element={<ContactLandlord />}
+                />
+                <Route path="/about" element={<About />} />
                 <Route
                   path="/category/:categoryName/:singleListItemId"
                   element={<SingleListItem />}

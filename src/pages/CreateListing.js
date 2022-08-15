@@ -117,8 +117,6 @@ const CreateListing = () => {
     }
   };
 
-  console.log(listingFormData)
-
   const handleSubmit = async e => {
     e.preventDefault();
     setIsLoading(true);

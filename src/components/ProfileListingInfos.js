@@ -7,7 +7,9 @@ import {
   where,
   orderBy,
   limit,
+  deleteDoc,
   startAfter,
+  doc,
 } from 'firebase/firestore';
 import { db } from '../firebase.config';
 import {
@@ -22,7 +24,7 @@ import {
 import ListingItems from '../components/ListingItems';
 import { motion } from 'framer-motion';
 import { getAuth } from 'firebase/auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaClinicMedical } from 'react-icons/fa';
 import SpinnerSolar from './SpinnerSolar';
 
@@ -69,6 +71,22 @@ const ProfileListingInfos = () => {
 
     fetchListings();
   }, [toast, user.uid]);
+
+  const navigate = useNavigate();
+  const handleDelete = async listingId => {
+    if (window.confirm('Are you sure you want to remove this item?')) {
+      await deleteDoc(doc(db, 'listings', listingId));
+      const updatedListings = listings.filter(item => item.id !== listingId);
+      setListings(updatedListings);
+      navigate('/profile');
+      toast({
+        title: 'Property deleted.',
+        description: 'Item has been remove from your list',
+        status: 'success',
+        duration: 3000,
+      });
+    }
+  };
 
   //** Motion setting **//
 
@@ -130,6 +148,7 @@ const ProfileListingInfos = () => {
               key={listing.id}
               listing={listing.data}
               id={listing.id}
+              onDelete={() => handleDelete(listing.id)}
             />
           ))}
         </Grid>

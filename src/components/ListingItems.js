@@ -6,13 +6,16 @@ import {
   Text,
   Badge,
   Icon,
+  IconButton,
+  Box,
+  
 } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaBed, FaBath } from 'react-icons/fa';
+import { FaBed, FaBath, FaTrash } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
-const ListingItems = ({ listing, id, index }) => {
+const ListingItems = ({ listing, id, index, onDelete }) => {
   return (
     <GridItem
       w="100%"
@@ -25,6 +28,7 @@ const ListingItems = ({ listing, id, index }) => {
     >
       <Flex
         as={motion.div}
+        gap={4}
         initial="initial"
         animate="animate"
         exit="exit"
@@ -42,7 +46,6 @@ const ListingItems = ({ listing, id, index }) => {
           },
         }}
         p={4}
-        justify="space-around"
       >
         <Image
           my="auto"
@@ -51,20 +54,39 @@ const ListingItems = ({ listing, id, index }) => {
           src={listing.imageUrls[0]}
           alt={listing.name}
         />
-
         <Flex direction="column" justify="space-around">
-          <Heading as="h4" size={['sm', null, 'md']}>
-            {listing.name}
-          </Heading>
+          <Flex gap={4}>
+            <Heading as="h4" size={['sm', null, 'md']}>
+              {listing.name}
+            </Heading>
+            {onDelete && (
+              <>
+                <Box
+                  as={motion.div}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.8 }}
+                >
+                  <IconButton
+                    colorScheme="green"
+                    boxSize={[4, null, 8]}
+                    onClick={() => onDelete(id)}
+                  >
+                    <Icon as={FaTrash}></Icon>
+                  </IconButton>
+                </Box>
+              </>
+            )}
+          </Flex>
           <Text>{listing.location}</Text>
           <Heading as="h5" size="sm" color={listing.offer ? 'green' : 'gray'}>
             {listing.offer
               ? listing.discountedPrice
                   .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',') 
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')
               : listing.regularPrice
                   .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} VND {listing.type === 'rent' && '/ Month'}
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}{' '}
+            VND {listing.type === 'rent' && '/ Month'}
           </Heading>
           <Flex gap={4}>
             <Badge p={2} colorScheme={listing.bedrooms > 1 ? 'green' : 'gray'}>
